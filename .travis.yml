@@ -2,7 +2,7 @@ language: bash
 
 env:
   global:
-  - IMAGE_NAME=jre-python
+  - IMAGE_NAME=guangie88/jre-python
 
 matrix:
   include:
