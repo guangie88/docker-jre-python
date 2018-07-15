@@ -1,0 +1,43 @@
+language: bash
+
+env:
+  global:
+  - IMAGE_NAME=jre-python
+
+matrix:
+  include:
+  - services: docker
+    env:
+    - DOCKER_DIR=alpine-apk
+    - ALPINE_VERS=3.8
+    - JAVA_VERS=8
+    - PYTHON_VERS=3
+    - TAG=apk-$ALPINE_VERS-jre$JAVA_VERS-python$PYTHON_VERS
+  - services: docker
+    env:
+    - DOCKER_DIR=alpine-apk
+    - ALPINE_VERS=3.8
+    - JAVA_VERS=8
+    - PYTHON_VERS=2
+    - TAG=apk-$ALPINE_VERS-jre$JAVA_VERS-python$PYTHON_VERS
+
+before_script:
+- set -e
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+script:
+- |
+  docker build $DOCKER_DIR -t $IMAGE_NAME:$TAG \
+  --build-arg ALPINE_VERS=$ALPINE_VERS \
+  --build-arg JAVA_VERS=$JAVA_VERS \
+  --build-arg PYTHON_VERS=$PYTHON_VERS
+
+after_success:
+- |
+  if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+    docker push $IMAGE_NAME:$TAG;
+  fi
+
+branches:
+  only:
+  - master
