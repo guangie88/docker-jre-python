@@ -27,22 +27,25 @@ matrix:
     - DOCKER_DIR=ubuntu-apt
     - UBUNTU_VERS=18.04
     - JAVA_VERS=8
-    - PYTHON_VERS=2.7
-    - TAG=$DOCKER_DIR-$UBUNTU_VERS-jre$JAVA_VERS-python$PYTHON_VERS
+    - PYTHON_MAJOR_NUM=2
+    - PYTHON_MINOR_NUM=7
+    - TAG=$DOCKER_DIR-$UBUNTU_VERS-jre$JAVA_VERS-python$PYTHON_MAJOR_NUM.$PYTHON_MINOR_NUM
   - services: docker
     env:
     - DOCKER_DIR=ubuntu-apt
     - UBUNTU_VERS=18.04
     - JAVA_VERS=8
-    - PYTHON_VERS=3.6
-    - TAG=$DOCKER_DIR-$UBUNTU_VERS-jre$JAVA_VERS-python$PYTHON_VERS
+    - PYTHON_MAJOR_NUM=3
+    - PYTHON_MINOR_NUM=6
+    - TAG=$DOCKER_DIR-$UBUNTU_VERS-jre$JAVA_VERS-python$PYTHON_MAJOR_NUM.$PYTHON_MINOR_NUM
   - services: docker
     env:
     - DOCKER_DIR=ubuntu-apt
     - UBUNTU_VERS=18.04
     - JAVA_VERS=8
-    - PYTHON_VERS=3.7
-    - TAG=$DOCKER_DIR-$UBUNTU_VERS-jre$JAVA_VERS-python$PYTHON_VERS
+    - PYTHON_MAJOR_NUM=3
+    - PYTHON_MINOR_NUM=7
+    - TAG=$DOCKER_DIR-$UBUNTU_VERS-jre$JAVA_VERS-python$PYTHON_MAJOR_NUM.$PYTHON_MINOR_NUM
 
 before_script:
 - set -e
@@ -59,7 +62,8 @@ script:
     docker build $DOCKER_DIR -t $IMAGE_NAME:$TAG \
     --build-arg UBUNTU_VERS=$UBUNTU_VERS \
     --build-arg JAVA_VERS=$JAVA_VERS \
-    --build-arg PYTHON_VERS=$PYTHON_VERS
+    --build-arg PYTHON_MAJOR_NUM=$PYTHON_MAJOR_NUM \
+    --build-arg PYTHON_MINOR_NUM=$PYTHON_MINOR_NUM
   fi
 
 after_success:
